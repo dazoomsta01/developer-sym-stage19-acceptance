@@ -1,0 +1,27 @@
+name: Developer Sym Stage 20 CI
+
+on:
+  push:
+    branches:
+      - 'dev/stage20-*'
+
+permissions:
+  contents: read
+
+jobs:
+  stage20-ci:
+    name: stage20-ci
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout exact candidate
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - name: Verify Stage 20 acceptance marker
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f stage20-provider-proof.txt
+          test ! -L stage20-provider-proof.txt
+          test -s stage20-provider-proof.txt
+          grep -q 'Developer Sym Stage 20' stage20-provider-proof.txt
