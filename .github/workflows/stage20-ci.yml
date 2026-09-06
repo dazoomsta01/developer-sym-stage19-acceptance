@@ -1,9 +1,10 @@
-name: Developer Sym Stage 20 CI
+name: Developer Sym Stage 20/21 CI
 
 on:
   push:
     branches:
       - 'dev/stage20-*'
+      - 'dev/stage21-*'
 
 permissions:
   contents: read
@@ -17,11 +18,11 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 1
-      - name: Verify Stage 20 acceptance marker
+      - name: Verify Developer Sym provider acceptance marker
         shell: bash
         run: |
           set -euo pipefail
           test -f stage20-provider-proof.txt
           test ! -L stage20-provider-proof.txt
           test -s stage20-provider-proof.txt
-          grep -q 'Developer Sym Stage 20' stage20-provider-proof.txt
+          grep -Eq '^Developer Sym Stage (20|21) provider ' stage20-provider-proof.txt
